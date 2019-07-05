@@ -1,0 +1,37 @@
+<div>
+  <div class="row" style="width: 100%">
+    <div class="col-md-3" style="overflow-y: scroll; height: 100vh;">
+        <div *ngFor="let items of data" style="padding: 18px 0px 0px 50px;">
+            <label class="container">
+                <input type="checkbox" [checked]=checked [id]=items.device [value]=items.device (change)="changed($event)">
+                <span class="checkmark"></span>
+                {{items.device}} 
+              </label> 
+        </div>
+    </div>
+      <div class="col-md-9" style="position: fixed; right: 0px;">
+
+         <div *ngIf="deviceData && deviceData.length==0" style="text-align: center;">
+          <img style="height: 60px;margin-top: 45vh" src='https://i.stack.imgur.com/FhHRx.gif'>
+         </div>
+          
+          
+          <agm-map *ngIf="deviceData && deviceData.length>0" [latitude]="deviceData[0].gps? deviceData[0].gps[0]: ''" [longitude]="deviceData[0].gps? deviceData[0].gps[1]: ''" [mapTypeControl]="true">
+            
+             <agm-marker [latitude]="deviceData[0].gps? deviceData[0].gps[0]: ''" [longitude]="deviceData[0].gps? deviceData[0].gps[1]: ''" [iconUrl]="icon"></agm-marker>
+              
+               <agm-polyline [strokeColor]="'#2196f3'" *ngFor="let point of deviceData; let i=index">
+                  <agm-polyline-point  [latitude]="point.gps?point.gps[0]:''" [longitude]="point.gps?point.gps[1]:''">
+                  </agm-polyline-point>
+  
+                  <ng-container *ngIf="deviceData[i+1]">
+                      <agm-polyline-point [latitude]="deviceData[i+1].gps?deviceData[i+1].gps[0]:''" [longitude]="deviceData[i+1].gps[1]?deviceData[i+1].gps[1]:''">
+                      </agm-polyline-point>
+                    </ng-container>
+  
+              </agm-polyline>            
+          </agm-map>
+      </div>
+  </div>
+</div>
+
