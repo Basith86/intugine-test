@@ -50,6 +50,11 @@ export class DevicesComponent implements OnInit {
   lastLat:any;
   lastLng:any;
 
+  timpestamplist:any;
+  addDatecode:any;
+  splitTime:any;
+
+
   ngOnInit() {
 
     this.deviceData = [
@@ -294,6 +299,28 @@ export class DevicesComponent implements OnInit {
       this.http.get<any>(this.deviceUrl + 'device=' + e.target.value + '&page=' + 1, httpOptions).subscribe(
         res => {
           if (res) {
+
+            this.timpestamplist = res.result.map( (a) => {
+              if(a.date){  return a.date } else { return a.createdAt }
+           })
+
+           this.splitTime = this.timpestamplist.map( (s) => {
+            var a = s.split('T'); var b = a[1].split('.') ; var c = b[0].replace(':',''); var d = c.replace(':',''); return JSON.parse(d);
+        })
+
+        this.addDatecode = res.result.forEach( (value,i) => {
+          value.datecode = this.splitTime[i]
+      })
+
+      res.result.sort(function(a,b){
+        var c = a.datecode;
+        var d = b.datecode;
+        return c-d;
+        });
+
+        res.result.reverse();
+
+
             this.created = res.result.map( (c) => {
               return c.createdAt;
           })
