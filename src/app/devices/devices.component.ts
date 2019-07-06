@@ -305,7 +305,14 @@ export class DevicesComponent implements OnInit {
            })
 
            this.splitTime = this.timpestamplist.map( (s) => {
-            var a = s.split('T'); var b = a[1].split('.') ; var c = b[0].replace(':',''); var d = c.replace(':',''); return JSON.parse(d);
+             if(s.includes('t')){
+              var a = s.split('T');
+             var b = a[1].split('.') ; 
+             var c = b[0].replace(':',''); 
+             var d = c.replace(':',''); 
+             return JSON.parse(d);
+             }
+            
         })
 
         this.addDatecode = res.result.forEach( (value,i) => {
@@ -360,9 +367,10 @@ export class DevicesComponent implements OnInit {
     }
 
             this.dta.push(res.result);
-            setTimeout(() => {
-              this.deviceData = this.dta.flat(1);
-            }, 3000)
+            this.deviceData = this.dta.flat(1);
+            // setTimeout(() => {
+            //   this.deviceData = this.dta.flat(1);
+            // }, 3000)
           }
         },
         err => {
