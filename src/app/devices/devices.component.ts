@@ -305,7 +305,7 @@ export class DevicesComponent implements OnInit {
            })
 
            this.splitTime = this.timpestamplist.map( (s) => {
-             if(s.includes('t')){
+             if(s.includes('T')){
               var a = s.split('T');
              var b = a[1].split('.') ; 
              var c = b[0].replace(':',''); 
